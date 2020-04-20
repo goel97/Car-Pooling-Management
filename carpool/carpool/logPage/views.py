@@ -11,6 +11,9 @@ from .models import *
 def index(request):
 	return render(request , "login.html" , {})
 
+def drive_or_ride(request):
+	return render(request  , "drive_or_ride.html" , {})
+
 def register(request):
 	return render(request , "register.html" , {})
 

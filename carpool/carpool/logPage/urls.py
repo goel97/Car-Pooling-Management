@@ -19,6 +19,7 @@ app_name = 'logPage'
 urlpatterns = [
 	path('' , views.index , name = "index"),
 	path('register.html' , views.register , name = "register"),
-	path('forgot-password.html' , views.forget , name = "forget")
+	path('forgot-password.html' , views.forget , name = "forget"),
+	path('option/' , views.drive_or_ride , name = "option")
 ]
 
