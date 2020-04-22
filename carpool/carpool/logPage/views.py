@@ -6,7 +6,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView , UpdateView , DeleteView
 
 # Create your views here.
-from .models import *
+from .models import user
 
 def index(request):
 	return render(request , "login.html" , {})
@@ -20,3 +20,24 @@ def register(request):
 def forget(request):
 	return render(request , "forgot-password.html" , {})
 
+def validateForm(input):	
+	try:
+		newUser = user.objects.get(pk = input["userId"])
+		return True
+	except:
+		newUser = user(userId = input['userId'] , passWd = input['passWd'] ,
+					   firstName = input['firstName'] , lastName = input['lastName'])
+		newUser.save()
+		return False
+
+
+def addUser(request):
+	print("BLAH -----------\n BLAH =============\n")
+	if request.method == "POST":
+		if validateForm(request.POST) == True:
+			return render(request , "register.html" , {'userExist' : True})
+
+	return render(request  , "drive_or_ride.html" , {})
+
+
+# if {{userExist}}
