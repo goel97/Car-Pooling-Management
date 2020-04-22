@@ -21,6 +21,7 @@ urlpatterns = [
 	path('register.html' , views.register , name = "register"),
 	path('forgot-password.html' , views.forget , name = "forget"),
 	path('option/' , views.drive_or_ride , name = "option"),
-	path('registerUser/' , views.addUser , name = "registerUser")
+	path('registerUser/' , views.addUser , name = "registerUser"),
+	path('verifyUser/' , views.verifyUser , name = "authenticate"),
 ]
 

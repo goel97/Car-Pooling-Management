@@ -15,7 +15,8 @@ def drive_or_ride(request):
 	return render(request  , "drive_or_ride.html" , {})
 
 def register(request):
-	return render(request , "register.html" , {})
+	context = {'userExist' : False}
+	return render(request , "register.html" , context)
 
 def forget(request):
 	return render(request , "forgot-password.html" , {})
@@ -32,12 +33,29 @@ def validateForm(input):
 
 
 def addUser(request):
-	print("BLAH -----------\n BLAH =============\n")
+	context = {'userExist' : False}
 	if request.method == "POST":
 		if validateForm(request.POST) == True:
-			return render(request , "register.html" , {'userExist' : True})
+			context['userExist'] = True
+			return render(request , "register.html" , context)
 
 	return render(request  , "drive_or_ride.html" , {})
+
+def verifyUser(request):
+	context = {'loginFail' : False , 'userExist' : True}
+	if request.method == "POST":
+		try:
+			newUser = user.objects.get(pk = request.POST["userId"])
+			if newUser.passWd != request.POST["passWd"]:
+				context['loginFail'] = True
+				return render(request , "login.html" , context)
+			else:
+				return render(request  , "drive_or_ride.html" , {})
+		except:
+			context['userExist'] = False
+			return render(request , "login.html" ,context)
+
+
 
 
 # if {{userExist}}
