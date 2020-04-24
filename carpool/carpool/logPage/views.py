@@ -56,6 +56,4 @@ def verifyUser(request):
 			return render(request , "login.html" ,context)
 
 
-
-
 # if {{userExist}}
