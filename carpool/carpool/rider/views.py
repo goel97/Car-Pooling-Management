@@ -13,4 +13,14 @@ def index(request):
 	# return HttpResponse("<h1>SUCCESS</h1>")
 
 def rideInfo(request):
-	return HttpResponse("<h1>SUCCESS</h1>")
+	if request.method == "POST":
+		print(request.POST['pickup'])
+		print(request.POST['destination'])
+		print(request.POST['latVal'])
+		print(request.POST['lngVal']) 
+		print(type(request.POST))
+		context ={'paramDict' : {'pickup' : request.POST['pickup'] , 'latVal' : request.POST['latVal'] , 
+					'lngVal' : request.POST['lngVal'] , 'destination' : request.POST['destination'] }}
+
+		#model of ride created
+	return render(request , "rideProcess.html" , context)

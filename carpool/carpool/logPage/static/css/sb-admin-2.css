@@ -555,6 +555,15 @@ pre code {
   margin-left: auto;
 }
 
+.containerMap {
+
+  width: 0%;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -9906,6 +9915,7 @@ a:focus {
   background-color: #3a3b45 !important;
 }
 
+
 .o-hidden {
   overflow: hidden !important;
 }
@@ -10241,6 +10251,7 @@ a:focus {
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
   color: #858796;
 }
+
 
 .sidebar {
   width: 6.5rem;

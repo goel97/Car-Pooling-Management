@@ -63,10 +63,16 @@ function initialize(coords) {
 	// console.log(type(liveLocation));
 	console.log(coords['lat'] + " ************ " + coords['lng'])
 	//console.log(window.liveLatitude + "-------------" + window.liveLongitude);
-	var mapOptions, map, marker, searchBox, searchBox1, city,
-		infoWindow = '',
-		addressEl = document.querySelector( '#map-search' );
-		pickPoint = document.querySelector('#map-pickup');
+	var mapOptions, map, marker, searchBox, searchBox1, city,infoWindow = '', addressEl = document.querySelector( '#map-search' ),
+		pickPoint = document.querySelector('#map-pickup'),
+		latElem = document.getElementById('lat'),
+		lngElem = document.getElementById('lng');
+
+
+		latElem.value = coords['lat'];
+		lngElem.value = coords['lng'];
+
+		console.log(latElem.value + " &&&&&&&&&&&& " + lngElem.value)
 	// 	element = document.getElementById( 'map-canvas' );
 	mapOptions = {
 		// How far the maps zooms in.
@@ -298,7 +304,7 @@ let mapFunc = function(position){
 		draggable: false
 	});
 
-	map.setCenter(pos);
+	//map.setCenter(pos);
 	test = 20;
     return new Promise(function(resolve , reject){resolve(pos)}); 
 };
@@ -310,6 +316,7 @@ let getCoord = function(coords){
 	return new Promise(function(resolve , reject){resolve(coords)}); 
 };
 
+//pawar123 -- > 1234567
 
 // let func = function(position){
 // mapFunc(position).then(function(result){ return getCoord(result) })
@@ -320,10 +327,10 @@ let getCoord = function(coords){
 function initMap() {
 	console.log("Get here")
 	window.liveLatitude=0, window.liveLongitude=0, window.flag=true;
-	map = new google.maps.Map(document.getElementById('map-canvas'), {
-	center: {lat: -34.397, lng: 150.644},
-		zoom: 6
-	});
+	// map = new google.maps.Map(document.getElementById('map-canvas'), {
+	// center: {lat: -34.397, lng: 150.644},
+	// 	zoom: 6
+	// });
 	infoWindow = new google.maps.InfoWindow;
 	// Try HTML5 geolocation.
 	var test = 10;

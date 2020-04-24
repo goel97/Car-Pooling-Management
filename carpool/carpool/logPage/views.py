@@ -39,7 +39,7 @@ def addUser(request):
 			context['userExist'] = True
 			return render(request , "register.html" , context)
 
-	return render(request  , "drive_or_ride.html" , {})
+	return render(request  , "drive_or_ride.html" , {'userId' : request.POST["userId"]})
 
 def verifyUser(request):
 	context = {'loginFail' : False , 'userExist' : True}
@@ -53,7 +53,7 @@ def verifyUser(request):
 				return render(request  , "drive_or_ride.html" , {})
 		except:
 			context['userExist'] = False
-			return render(request , "login.html" ,context)
+			return render(request , "login.html" , {'userId' : request.POST["userId"]})
 
 
 # if {{userExist}}

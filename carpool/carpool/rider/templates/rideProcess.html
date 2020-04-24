@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Login</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <!-- <link href="{% static 'css/mapStyle.css' %}" rel="stylesheet" type="text/css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+
+   <style>
+      .img-container {
+        text-align: center;
+        display: block;
+        position: relative;
+        top: 130px;
+      }
+      .box{
+        margin-top:2%;
+        margin-left: auto;
+        margin-right: auto;
+        width:50%;
+        height:20%;
+        background-color: white;
+        display: block;
+        text-align: center;
+        color: red;
+      }
+
+
+    </style>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map-canvas{
+       min-width: 100vh;
+       min-height: 100vh;
+      }
+    </style>
+    <!-- <script src="{% static 'js/mapLocate.js' %}"></script> -->
+</head>
+
+<body>
+   <h1> {{paramDict.pickup}}</h1>
+  <div id = "box-id" class = "box"><h1>Processing...</h1></div>
+  <div id="map-canvas"></div>
+
+  <script>
+    var pickup = '{{paramDict.pickup}}',
+    liveLat = '{{paramDict.latVal}}',
+    liveLng = '{{paramDict.lngVal}}'
+
+    function initMap() {
+
+    console.log("initMap")
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+      zoom: 7,
+      center: {lat: 41.85 , lng: -87.65}
+    });
+    directionsRenderer.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+    console.log("ended initMap")
+
+    // document.getElementById('start').addEventListener('change', onChangeHandler);
+    // document.getElementById('end').addEventListener('change', onChangeHandler);
+  }
+  
+  function calculateAndDisplayRoute(directionsService, directionsRenderer ) {
+    console.log("In calcandDisplay")
+    // console.log(params)
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    console.log("caclualte")
+
+    directionsService.route(
+    {
+      origin: new google.maps.LatLng(liveLat , liveLng),
+      destination: pickup,
+      travelMode: 'DRIVING'
+    },
+    function(response, status) {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
+  </script>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &callback=initMap">
+  </script>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+</body>
+
+</html>
