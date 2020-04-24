@@ -37,7 +37,7 @@
       }
     </style>
     <script src="{% static 'js/mapSearch.js' %}"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &libraries=places&callback=initialize"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &libraries=places&callback=initMap"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -66,6 +66,7 @@
                   <form action="{% url 'rider:rideInfo' %}" name = "rideInfo" method = "post" class= "rider">
                     {% csrf_token %}
                     <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name = "pickup" id="map-pickup" placeholder="Enter Pickup">
                       <input type="text" class="form-control form-control-user" name = "destination" id="map-search" placeholder="Enter Destination">
                     </div>
                     <input type="submit" class="btn btn-primary btn-user btn-block" value="Submit">
