@@ -15,6 +15,7 @@ def index(request):
 
 def rideInfo(request):
 	if request.method == "POST":
+		print(request.POST['userId'])
 		print(request.POST['pickup'])
 		print(request.POST['destination'])
 		print(request.POST['latVal'])
@@ -22,6 +23,5 @@ def rideInfo(request):
 		print(type(request.POST))
 		context ={'paramDict' : {'pickup' : request.POST['pickup'] , 'latVal' : request.POST['latVal'] , 
 					'lngVal' : request.POST['lngVal'] , 'destination' : request.POST['destination'] }}
-
 		#model of ride created
 	return render(request , "rideProcess.html" , context)
