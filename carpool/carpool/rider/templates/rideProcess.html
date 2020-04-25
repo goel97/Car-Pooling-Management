@@ -38,6 +38,14 @@
         text-align: center;
         color: red;
       }
+      .mapBox{
+        margin-top:2%;
+        margin-left: 2%;
+        margin-right: 88%;
+        width:10%;
+        height:2%;
+        display: block;
+      }
 
 
     </style>
@@ -45,8 +53,8 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map-canvas{
-       min-width: 100vh;
-       min-height: 100vh;
+       min-width: 60vh;
+       min-height: 60vh;
       }
     </style>
     <!-- <script src="{% static 'js/mapLocate.js' %}"></script> -->
@@ -55,7 +63,7 @@
 <body>
    <h1> {{paramDict.pickup}}</h1>
   <div id = "box-id" class = "box"><h1>Processing...</h1></div>
-  <div id="map-canvas"></div>
+  <div class = "mapBox" id="map-canvas"></div>
 
   <script>
     var pickup = '{{paramDict.pickup}}',
