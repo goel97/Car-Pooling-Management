@@ -19,6 +19,7 @@ def drive_or_ride(request):
 	return render(request  , "drive_or_ride.html" , {'user': request.user.username})
 
 def register(request):
+	print("-----------REGISTER---------------")
 	context = {'userExist' : False}
 	return render(request , "register.html" , context)
 
