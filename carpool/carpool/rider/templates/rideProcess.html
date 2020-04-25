@@ -33,18 +33,18 @@
         margin-right: auto;
         width:50%;
         height:20%;
-        background-color: white;
         display: block;
         text-align: center;
         color: red;
       }
       .mapBox{
         margin-top:2%;
-        margin-left: 2%;
-        margin-right: 88%;
-        width:10%;
-        height:2%;
+        margin-left:auto;
+        margin-right: auto;
+        width:60%;
+        height:60%;
         display: block;
+        border-radius: 6%;
       }
 
 
@@ -60,11 +60,13 @@
     <!-- <script src="{% static 'js/mapLocate.js' %}"></script> -->
 </head>
 
-<body>
-   <h1> {{paramDict.pickup}}</h1>
-  <div id = "box-id" class = "box"><h1>Processing...</h1></div>
-  <div class = "mapBox" id="map-canvas"></div>
+<body class="bg-gradient-primary" style = "min-height: 100% ; min-width: 100% ;  background-image: url('/static/images/cab.gif');">
 
+  
+  <!-- <div id = "box-id" class = "box" style = "min-height: auto ; min-width: auto ;  background-image: url('/static/images/processing.gif');" ></div> -->
+  <img src="{% static 'images/processing.gif' %}" style="margin-left: auto;margin-right: auto;display:block">
+  <div class = "mapBox" id="map-canvas"></div>
+  
   <script>
     var pickup = '{{paramDict.pickup}}',
     liveLat = '{{paramDict.latVal}}',
