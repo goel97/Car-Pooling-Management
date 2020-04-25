@@ -9,7 +9,8 @@ from django.views.generic.edit import CreateView , UpdateView , DeleteView
 # Create your views here.
 
 def index(request):
-	return render(request , "riderHome.html" , {})
+	print(request.user.username)
+	return render(request , "riderHome.html" , {'username' : request.user.username})
 	# return HttpResponse("<h1>SUCCESS</h1>")
 
 def rideInfo(request):
