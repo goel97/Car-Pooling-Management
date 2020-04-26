@@ -26,6 +26,7 @@
       destination: params['pickup'],
       travelMode: 'DRIVING'
     },
+    
     function(response, status) {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
@@ -33,4 +34,6 @@
         window.alert('Directions request failed due to ' + status);
       }
     });
+
+
   }

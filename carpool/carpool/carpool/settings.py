@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'logPage.apps.LogpageConfig',
     'rider.apps.RiderConfig',
+    'driver.apps.DriverConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

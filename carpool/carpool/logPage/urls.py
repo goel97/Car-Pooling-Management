@@ -23,5 +23,6 @@ urlpatterns = [
 	path('option/' , views.drive_or_ride , name = "option"),
 	path('registerUser/' , views.addUser , name = "registerUser"),
 	path('verifyUser/' , views.verifyUser , name = "authenticate"),
+	
 ]
 
