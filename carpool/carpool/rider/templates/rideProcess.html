@@ -128,6 +128,76 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script type="text/javascript">
+      console.log("hello ajax")
+
+
+      function redirectPost(url, data) {
+        var form = document.createElement('form');
+        document.body.appendChild(form);
+        form.method = 'post';
+        form.action = url;
+        for (var name in data) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = data[name];
+            form.appendChild(input);
+        }
+        form.submit();
+    }
+
+      function wait(ms) { 
+        const start = performance.now(); 
+        while(performance.now() - start < ms); 
+      }
+
+
+      getMyJson();
+
+
+      function getMyJson() {
+        console.log("in ajax")
+        var userID = '{{paramDict.userId}}'
+        console.log(userID)
+          $.ajax({
+              type: "GET",
+              url: '{% url "rider:statusUpdate"%}',
+              data: {
+                id : userID 
+              },
+              datatype: "json",
+              success: function(result) {
+              var json = result['userId'];
+              if(result.success) { 
+                  console.log("Ride Accepted!");
+                  console.log(json);
+
+                  //UNCOMMENT - to redirect
+                  //redirectPost('{% url "rider:rideSuccessful"%}', { userId:result['userId']})
+                  
+              }else{
+                  console.log("Response not yet met.");
+                  //console.log(json);
+                  wait(500);
+                  console.log("calling again")
+                  getMyJson();
+              }
+          },
+          error: function() {
+              console.log("There was an error.");
+              // Want to repeat AJAX call also in case of error? 
+              // Then just uncomment the following two lines:
+              wait(1000);
+              getMyJson();
+          }
+          });
+      }
+
+
+  </script>
 </body>
 
 </html>
