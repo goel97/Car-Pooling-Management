@@ -10,4 +10,7 @@ from django.views.generic.edit import CreateView , UpdateView , DeleteView
 
 def driverHome(request):
 	print(request.user.username)
-	render(request , "driverHome.html" , {'username' : request.user.username})
+	return render(request , "driverHome.html" , {'username' : request.user.username})
+
+def driverInfo(request):
+	return HttpResponse("<h1>SUCCESS</h1>")
