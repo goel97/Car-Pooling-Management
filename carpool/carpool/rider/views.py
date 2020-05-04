@@ -47,10 +47,11 @@ def statusUpdate(request):
 	return JsonResponse({'success':False,'userId':rideDetils.userId})
 
 ## UNCOMMENT - if we redirect to new page after ride acceptance
-# def rideSuccessful(request):
-# 	print("kkk ----------------------------------")
-# 	if request.method == "POST":
-# 		id = request.POST['userId']
-# 		print("rider id", id)
-# 		rideDetails = get_object_or_404(ride, pk=id)
-# 	return render(request, 'polls/results.html', {'rideDetails': rideDetails})
+def rideSuccessful(request):
+	print("kkk ----------------------------------")
+	if request.method == "POST":
+		id = request.POST['userId']
+		print("rider id", id)
+		rideDetails = get_object_or_404(ride, pk=id)
+	#return render(request, 'polls/results.html', {'rideDetails': rideDetails})
+	return HttpResponse("<h1>SUCCESS </h1>")

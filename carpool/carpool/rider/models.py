@@ -10,4 +10,4 @@ class ride(models.Model):
 	cost = models.PositiveIntegerField(default = 0)
 
 	def __str__(self):
-		print(self.userId + " ---- " + self.destination)
+		return (self.userId + " ---- " + self.destination)

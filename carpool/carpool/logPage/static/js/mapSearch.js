@@ -325,6 +325,7 @@ let getCoord = function(coords){
 
 
 function initMap() {
+	//console.log(isGlobal + "--------------##########@@@@@@@@@@@@@@@@@@@@@")
 	console.log("Get here")
 	window.liveLatitude=0, window.liveLongitude=0, window.flag=true;
 	// map = new google.maps.Map(document.getElementById('map-canvas'), {

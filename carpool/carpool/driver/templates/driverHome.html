@@ -62,7 +62,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">All set to go!!</h1>
                   </div>
-                  <form action="{% url 'driver:driverProcess' %}" name = "driverInfo" method = "post" class= "driver">
+                  <form action="{% url 'driver:driverInfo' %}" name = "driverInfo" method = "post" class= "driver">
                     {% csrf_token %}
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" name = "destination" id="map-search" placeholder="Enter Destination">
