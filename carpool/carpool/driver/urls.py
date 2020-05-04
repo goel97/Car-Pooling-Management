@@ -7,6 +7,6 @@ app_name = 'driver'
 
 urlpatterns = [
 	path('' , views.driverHome , name = "driverHome"),
-	path('driverInfo' , views.driverInfo , name = "driverInfo")
+	path('driverProcess' , views.driverProcess , name = "driverProcess")
 ]
 

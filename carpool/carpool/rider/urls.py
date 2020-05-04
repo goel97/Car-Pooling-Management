@@ -20,6 +20,6 @@ urlpatterns = [
 	path('' , views.index , name = "ride"),
 	path('submit', views.rideInfo, name = "rideInfo"),
 	path('processsing', views.statusUpdate, name = "statusUpdate"),
-	path('success', views.rideSuccessful, name = "rideSuccessful"),
+	#path('success', views.rideSuccessful, name = "rideSuccessful"),
 ]
 
