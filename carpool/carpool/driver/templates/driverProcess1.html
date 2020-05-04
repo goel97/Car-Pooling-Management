@@ -46,6 +46,7 @@
         }
       </style>
       <script src="{% static 'js/mapSearch.js' %}"></script>
+      <script src="{% static 'js/utility.js' %}"></script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &libraries=places&callback=initMap"></script>
 </head>
 
@@ -406,6 +407,17 @@
             <div class="row">
     
                 <div class="col-lg-6">
+                <script>
+                    var toAdd = document.createDocumentFragment();
+                    for(var i=0; i < {{}}; i++){
+                       var newDiv = document.createElement('div');
+                       newDiv.id = 'r'+i;
+                       newDiv.className = 'ansbox';
+                       toAdd.appendChild(newDiv);
+                    }
+                    
+                    document.appendChild(toAdd);
+                </script>    
     
                 <!-- Dropdown Card Example -->
                 <div class="card shadow mb-4">
