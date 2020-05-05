@@ -35,7 +35,7 @@ def rideInfo(request):
 		context ={'paramDict' : {'userId' : request.POST['userId'],'pickup' : request.POST['pickup'] , 'latVal' : request.POST['latVal'] , 
 					'lngVal' : request.POST['lngVal'] , 'destination' : request.POST['destination'] }}
 		#model of ride created
-	return render(request , "rideProcess.html" , context)
+	return render(request , "blank.html" , context)
 
 def statusUpdate(request):
 	print("here ----------------------------------")

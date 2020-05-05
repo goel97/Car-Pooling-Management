@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +13,48 @@
   <title>SB Admin 2 - Blank</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+  <style>
+    .img-container {
+      text-align: center;
+      display: block;
+      position: relative;
+      top: 130px;
+    }
+    .box{
+      margin-top:2%;
+      margin-left: auto;
+      margin-right: auto;
+      width:50%;
+      height:20%;
+      display: block;
+      text-align: center;
+      color: red;
+    }
+    .mapBox{
+      margin-top:2%;
+      margin-left:auto;
+      margin-right: auto;
+      width:60%;
+      height:60%;
+      display: block;
+      border-radius: 6%;
+    }
+
+
+  </style>
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map-canvas{
+     min-width: 100%;
+     min-height: 100%;
+    }
+  </style>
 
 </head>
 
@@ -336,6 +374,9 @@
 
         </div>
         <!-- /.container-fluid -->
+        
+        <img src="{% static 'images/processing.gif' %}" style="margin-left: auto;margin-right: auto;display:block">
+        <div class = "mapBox" id="map-canvas"></div>
 
       </div>
       <!-- End of Main Content -->
@@ -389,6 +430,189 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <script>
+    var pickup = '{{paramDict.pickup}}',
+    liveLat = '{{paramDict.latVal}}',
+    liveLng = '{{paramDict.lngVal}}'
+
+    function initMap() {
+
+    console.log("initMap")
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+      zoom: 7,
+      center: {lat: 41.85 , lng: -87.65}
+    });
+    directionsRenderer.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+    console.log("ended initMap")
+
+    // document.getElementById('start').addEventListener('change', onChangeHandler);
+    // document.getElementById('end').addEventListener('change', onChangeHandler);
+  }
+  
+  function calculateAndDisplayRoute(directionsService, directionsRenderer ) {
+    console.log("In calcandDisplay")
+    // console.log(params)
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    console.log("caclualte")
+
+    directionsService.route(
+    {
+      origin: new google.maps.LatLng(liveLat , liveLng),
+      destination: pickup,
+      travelMode: 'DRIVING'
+    },
+    function(response, status) {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
+  </script>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &callback=initMap">
+  </script>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+  <script>
+    var pickup = '{{paramDict.pickup}}',
+    liveLat = '{{paramDict.latVal}}',
+    liveLng = '{{paramDict.lngVal}}'
+
+    function initMap() {
+
+    console.log("initMap")
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer();
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+      zoom: 7,
+      center: {lat: 41.85 , lng: -87.65}
+    });
+    directionsRenderer.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+    console.log("ended initMap")
+
+    // document.getElementById('start').addEventListener('change', onChangeHandler);
+    // document.getElementById('end').addEventListener('change', onChangeHandler);
+  }
+  
+  function calculateAndDisplayRoute(directionsService, directionsRenderer ) {
+    console.log("In calcandDisplay")
+    // console.log(params)
+    console.log(pickup)
+    console.log(liveLat)
+    console.log(liveLng)
+    console.log("caclualte")
+
+    directionsService.route(
+    {
+      origin: new google.maps.LatLng(liveLat , liveLng),
+      destination: pickup,
+      travelMode: 'DRIVING'
+    },
+    function(response, status) {
+      if (status === 'OK') {
+        directionsRenderer.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
+  </script>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &callback=initMap">
+  </script>
+
+  <script type="text/javascript">
+      console.log("hello ajax")
+
+
+      function redirectPost(url, data) {
+        var form = document.createElement('form');
+        document.body.appendChild(form);
+        form.method = 'post';
+        form.action = url;
+        for (var name in data) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = data[name];
+            form.appendChild(input);
+        }
+        form.submit();
+    }
+
+      function wait(ms) { 
+        const start = performance.now(); 
+        while(performance.now() - start < ms); 
+      }
+
+      getMyJson();
+
+      function getMyJson() {
+        console.log("in ajax")
+        var userID = '{{paramDict.userId}}'
+        console.log(userID)
+          $.ajax({
+              type: "GET",
+              url: '{% url "rider:statusUpdate"%}',
+              data: {
+                id : userID 
+              },
+              datatype: "json",
+              success: function(result) {
+              var json = result['userId'];
+              if(result.success) { 
+                  console.log("Ride Accepted!");
+                  console.log(json);
+
+                  //UNCOMMENT - to redirect
+                  //redirectPost('{% url "rider:rideSuccessful"%}', { userId:result['userId']})
+                  
+              }else{
+                  console.log("Response not yet met.");
+                  //console.log(json);
+                  wait(500);
+                  console.log("calling again")
+                  getMyJson();
+              }
+          },
+          error: function() {
+              console.log("There was an error.");
+              // Want to repeat AJAX call also in case of error? 
+              // Then just uncomment the following two lines:
+              wait(1000);
+              getMyJson();
+          }
+          });
+      }
+      
+  </script>
 
 </body>
 
