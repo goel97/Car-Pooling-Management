@@ -186,6 +186,6 @@ function initMap() {
 		// Browser doesn't support Geolocation
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
-	console.log(test + " TEST OUT")
-	getRider();
+	console.log(test + " TEST OUT babh abha a")
+	//initMap1();
 }

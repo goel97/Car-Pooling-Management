@@ -13,13 +13,13 @@ import json
 
 
 def driverHome(request):
-	print(request.user.username)
+	print(request.user.username)	
 	return render(request , "driverHome.html" , {'username' : request.user.username})
 
 def driverInfo(request):
 	print(request.user.username + " driveInfo")
 	print(request.POST['destination'])
-	return render(request , "driverProcess.html" , {'username' : request.user.username , 'dest' : request.POST['destination']})
+	return render(request , "driverProcess1.html" , {'username' : request.user.username , 'dest' : request.POST['destination']})
 
 def searchRider(request):
 	driverId = request.GET['id']
@@ -38,14 +38,14 @@ def searchRider(request):
 	for r in riderSet:
 		print(type(r))
 		print(r)
-		my_dist = gmaps.distance_matrix((liveLat , liveLong) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
+		my_dist = gmaps.distance_matrix((float(liveLat) , float(liveLong)) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
 		my_dist = my_dist/1000.0
 		print("the distance is " + str(my_dist))
-		if my_dist < 1000:
+		if my_dist < 100000:
 			data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
 			rideList.append(data_dict)
 
-	rideList = json.dumps(rideList)
+	#rideList = json.dumps(rideList)
 	return JsonResponse({'rideList': rideList})
 	#algo rider search 
 

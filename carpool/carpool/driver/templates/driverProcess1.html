@@ -45,9 +45,15 @@
           width: 80%;
         }
       </style>
-      <script src="{% static 'js/mapSearch.js' %}"></script>
+      <!-- <script src="{% static 'js/mapSearch.js' %}"></script> -->
+      <script src="{% static 'js/getLocate.js' %}"></script>
       <script src="{% static 'js/utility.js' %}"></script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &libraries=places&callback=initMap"></script>
+      <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+       <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 </head>
 
 <body id="page-top">
@@ -359,6 +365,12 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
+        <div class="form-group">
+          <input type="hidden" class="form-control form-control-user" name = "destination" id="map-search" value = {{dest}}>
+           <input type="hidden" id="lat" name="latVal">
+           <input type="hidden" id="lng" name="lngVal">
+           <input type="hidden" id = "userId" name = "userId" value = {{username}}>
+        </div>
             
         <div class="container-fluid">
 
@@ -406,105 +418,103 @@
     
             <div class="row">
     
-                <div class="col-lg-6">
-                <script>
-                    var toAdd = document.createDocumentFragment();
-                    for(var i=0; i < {{}}; i++){
-                       var newDiv = document.createElement('div');
-                       newDiv.id = 'r'+i;
-                       newDiv.className = 'ansbox';
-                       toAdd.appendChild(newDiv);
-                    }
-                    
-                    document.appendChild(toAdd);
-                </script>    
-    
-                <!-- Dropdown Card Example -->
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Ride 1</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Accept</a>
-                        <a class="dropdown-item" href="#">Reject</a>
-                        </div>
-                    </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                    Rider Name : ABC<br>
-                    Location : XYZ<br>
-                    Destination : XYZ<br>
-                    </div>
-                </div>
-
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Ride 2</h6>
-                        <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Accept</a>
-                            <a class="dropdown-item" href="#">Reject</a>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        Rider Name : DEF<br>
-                        Location : PQR<br>
-                        Destination : PQR<br>
-                    </div>
-                </div>
-
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Ride 3</h6>
-                        <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Accept</a>
-                            <a class="dropdown-item" href="#">Reject</a>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        Rider Name : HIJ<br>
-                        Location : FEG<br>
-                        Destination : XYZ<br>
-                    </div>
-                </div>
-                    
-    
+                <div class="col-lg-6" id = "rideCards">
                 
+                <script type="text/javascript">
+                  console.log("hello ajax")
+            
+                  function redirectPost(url, data) {
+                    var form = document.createElement('form');
+                    document.body.appendChild(form);
+                    form.method = 'post';
+                    form.action = url;
+                    for (var name in data) {
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = name;
+                        input.value = data[name];
+                        form.appendChild(input);
+                    }
+                    form.submit();
+                }
+            
+                  function wait(ms) { 
+                    const start = performance.now(); 
+                    while(performance.now() - start < ms); 
+                  }
+            
+                  //getRider();
+                  var destPoint = '{{dest}}'
+                  var userID = '{{username}}'
+            
+                  function getRider(callback) {
+                    console.log("in ajax")
+                    //initMap()
+                    console.log("after initMap")
+                    console.log(document.getElementById('map-search').value)
+            
+                    $.ajax({
+                      type: "GET",
+                      url: '{% url "driver:searchRider"%}',
+                      data: {
+                        id : userID,
+                        liveLat : document.getElementById('lat').value,
+                        liveLong : document.getElementById('lng').value,
+                        destination : destPoint
+                      },
+                      datatype: "json",
+                      success: function(result) {
+                      console.log("removing cards")
+                      $("div.cardsForRide").remove(); 
+                      wait(5000);
+                      console.log("displaying cards")
+                      console.log(result["rideList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
+                      console.log("ride Accepted")  //of Cards using JS. Aslo check for empty or something
+                      console.log("hello"+(result["rideList"].length))
+                      
+                      var lenCards = result["rideList"].length;
+                      var str = "" 
+                      for(var i=0; i < lenCards; i++) {
+                        console.log("i --- " + result["rideList"][i].riderId)
+                        // str = "<div id='ride" + result.rideList[i] + "'><div id='DivUid' >" + tempRes.value.UserLoginListDet[i].UserLoginId + "</div><div id='DivUidCross' class=\"CrossIconDiv\" OnClick='RemoveDivElement('DivUserMailList'," + divcnt + ");'></div></div>";
+                        // divcnt = divcnt + 1;
+                        str += "<div class=\"cardsForRide\" ><div class=\"card shadow mb-4\" ><div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\"><h6 class=\"m-0 font-weight-bold text-primary\"> Ride" + (i+1) + "</h6><div class=\"dropdown no-arrow\"><a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i></a><div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\"><div class=\"dropdown-header\">OPTIONS</div><a class=\"dropdown-item\" href=\"#\">Accept</a><a class=\"dropdown-item\" href=\"#\">Reject</a></div></div></div><div class=\"card-body\">Rider Name :<span style=\"color:blue\">" + result["rideList"][i]["riderId"] + "</span><br>Pickup Location :<span style=\"color:blue\">" + result["rideList"][i]["pickUp"] + "</span><br>Destination : <span style=\"color:blue\">" + result["rideList"][i]["destination"] + "</span><br></div></div>"
+                      }
+                       document.getElementById("rideCards").innerHTML = str;
+                      },
+                      error: function() {
+                          console.log("There was an error.");
+                          // Want to repeat AJAX call also in case of error? 
+                          // Then just uncomment the following two lines:
+                      }
+                  });
+                
+                }
+            
+                  $(document).ready(function(){
+                          console.log("Calling getRider once more")
+                          setInterval(getRider,5000);
+                  });
+            
+                  // window.addEventListener('load',function(){
+                  //   getRider();
+                  // },false);
+            
+              </script> 
     
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6" id = rideMap>
     
                 <!-- Add map here -->
                 <div class = "mapBox" id="map-canvas"></div>
-                <script>
+                <!-- <script>
                     // var pickup = '{{paramDict.pickup}}',
                     // liveLat = '{{paramDict.latVal}}',
                     // liveLng = '{{paramDict.lngVal}}'
                 
-                    function initMap() {
-                
+                    function initMap1() {
+                    
                     // console.log("initMap")
                     // console.log(pickup)
                     // console.log(liveLat)
@@ -516,40 +526,17 @@
                         center: {lat: 41.85 , lng: -87.65}
                     });
                     directionsRenderer.setMap(map);
-                    calculateAndDisplayRoute(directionsService, directionsRenderer);
+                    //calculateAndDisplayRoute(directionsService, directionsRenderer);
                     //console.log("ended initMap")
                 
                     // document.getElementById('start').addEventListener('change', onChangeHandler);
                     // document.getElementById('end').addEventListener('change', onChangeHandler);
                     }
-                    
-                    function calculateAndDisplayRoute(directionsService, directionsRenderer ) {
-                    // console.log("In calcandDisplay")
-                    // console.log(params)
-                    // console.log(pickup)
-                    // console.log(liveLat)
-                    // console.log(liveLng)
-                    // console.log("caclualte")
-                
-                    directionsService.route(
-                    {
-                        origin: new google.maps.LatLng(liveLat , liveLng),
-                        destination: pickup,
-                        travelMode: 'DRIVING'
-                    },
-                    function(response, status) {
-                        if (status === 'OK') {
-                        directionsRenderer.setDirections(response);
-                        } else {
-                        window.alert('Directions request failed due to ' + status);
-                        }
-                    });
-                    }
                 
                     </script>
                     <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA &callback=initMap">
-                    </script>
+                    </script> -->
                 </div>
     
             </div>
