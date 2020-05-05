@@ -22,11 +22,14 @@ def driverInfo(request):
 	return render(request , "driverProcess1.html" , {'username' : request.user.username , 'dest' : request.POST['destination']})
 
 def searchRider(request):
+	print("*******************&&&&&&&&&&&&&&&&&&&&&&&&&&&**********************")
+	print(request)
 	driverId = request.GET['id']
 	liveLat = request.GET['liveLat']
 	liveLong = request.GET['liveLong']
 	print(liveLat + "++++++" + liveLong);
 	print(request.GET['destination'])
+	print("*******************&&&&&&&&&&&&&&&&&&&&&&&&&&&**********************")
 
 	if liveLat == "" or liveLong == "":
 		return JsonResponse({'success': False})
@@ -38,7 +41,7 @@ def searchRider(request):
 	for r in riderSet:
 		print(type(r))
 		print(r)
-		my_dist = gmaps.distance_matrix((float(liveLat) , float(liveLong)) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
+		my_dist = gmaps.distance_matrix((float(liveLat) ,float(liveLong)) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
 		my_dist = my_dist/1000.0
 		print("the distance is " + str(my_dist))
 		if my_dist < 100000:
@@ -50,3 +53,19 @@ def searchRider(request):
 	#algo rider search 
 
 	#[{"model": "rider.ride", "pk": "lodhuji", "fields": {"pickUp": "Bhopal Railway Station, Bajariya, Navbahar Colony, Bhopal, Madhya Pradesh, India", "destination": "New Delhi, Delhi, India", "complete": false, "status": false, "cost": 0}}]
+
+def acceptRider(request):
+	print(request)
+	print("***************************")
+	idList = request.GET['id']
+	ind = idList.find("&&&----&&&")
+	driverId = idList[:ind]
+	riderId = idList[ind+10: ]
+	print(driverId)
+	print(riderId)
+	success =  ride.acceptRide(riderId , driverId)
+	return JsonResponse({'success' : success})
+
+
+#<WSGIRequest: GET '/driver/accept?riderId=lodhuji&driverId=User01'>
+#<WSGIRequest: GET '/driver/driveProcess?id=User01&liveLat=19.7514798&liveLong=75.7138884&destination=New%20Delhi%20Railway%20Station%2C%20Kamla%20Market%2C%20Ajmeri%20Gate%2C%20New%20Delhi%2C%20Delhi%2C%20India'>

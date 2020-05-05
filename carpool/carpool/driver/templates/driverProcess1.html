@@ -446,7 +446,43 @@
                   //getRider();
                   var destPoint = '{{dest}}'
                   var userID = '{{username}}'
-            
+                  
+                  function rideAccept(elem){
+
+                  console.log(elem.id +"~~~~~~~~~~~~~~~~~~~~~~~@@@@@@@@@@@###############")
+                  new_id = (elem.id).slice(14)
+                  console.log(new_id)
+
+                   $.ajax({
+                      type: "GET",
+                      url: '{% url "driver:acceptRider"%}',
+                      data: {
+                        id :  userID + "&&&----&&&" + new_id                 
+                      },
+                      datatype: "json",
+                      success: function(result) {
+
+                        if(result["success"] == true){
+                          console.log("Show on Map")
+                        }
+                        else{
+                          console.log("Other driver has already taken this ride")
+                        }
+
+                      },
+                      error: function() {
+                          console.log("There was an error.");
+                          //rideAccept()
+                      }
+                  });
+
+                  }
+
+                  function rideReject(elem){
+
+                  }
+
+
                   function getRider(callback) {
                     console.log("in ajax")
                     //initMap()
@@ -471,14 +507,15 @@
                       console.log(result["rideList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
                       console.log("ride Accepted")  //of Cards using JS. Aslo check for empty or something
                       console.log("hello"+(result["rideList"].length))
-                      
+
                       var lenCards = result["rideList"].length;
                       var str = "" 
                       for(var i=0; i < lenCards; i++) {
                         console.log("i --- " + result["rideList"][i].riderId)
-                        // str = "<div id='ride" + result.rideList[i] + "'><div id='DivUid' >" + tempRes.value.UserLoginListDet[i].UserLoginId + "</div><div id='DivUidCross' class=\"CrossIconDiv\" OnClick='RemoveDivElement('DivUserMailList'," + divcnt + ");'></div></div>";
-                        // divcnt = divcnt + 1;
-                        str += "<div class=\"cardsForRide\" ><div class=\"card shadow mb-4\" ><div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\"><h6 class=\"m-0 font-weight-bold text-primary\"> Ride" + (i+1) + "</h6><div class=\"dropdown no-arrow\"><a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i></a><div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\"><div class=\"dropdown-header\">OPTIONS</div><a class=\"dropdown-item\" href=\"#\">Accept</a><a class=\"dropdown-item\" href=\"#\">Reject</a></div></div></div><div class=\"card-body\">Rider Name :<span style=\"color:blue\">" + result["rideList"][i]["riderId"] + "</span><br>Pickup Location :<span style=\"color:blue\">" + result["rideList"][i]["pickUp"] + "</span><br>Destination : <span style=\"color:blue\">" + result["rideList"][i]["destination"] + "</span><br></div></div>"
+
+                        var id1 = "@$#acceptRider" + result["rideList"][i]["riderId"]  
+                        var id2 = "@$#rejectRider" + result["rideList"][i]["riderId"] 
+                        str += "<div class=\"cardsForRide\" ><div class=\"card shadow mb-4\" ><div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\"><h6 class=\"m-0 font-weight-bold text-primary\"> Ride" + (i+1) + "</h6><div class=\"dropdown no-arrow\"><a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i></a><div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\"><div class=\"dropdown-header\">OPTIONS</div><a class=\"dropdown-item\" href=\"#\" onclick= \"rideAccept(this)\" id = "+id1+">Accept</a><a class=\"dropdown-item\" href=\"#\" onclick= \"rideReject(this)\" id = "+id2+">Reject</a></div></div></div><div class=\"card-body\">Rider Name :<span style=\"color:blue\">" + result["rideList"][i]["riderId"] + "</span><br>Pickup Location :<span style=\"color:blue\">" + result["rideList"][i]["pickUp"] + "</span><br>Destination : <span style=\"color:blue\">" + result["rideList"][i]["destination"] + "</span><br></div></div>"
                       }
                        document.getElementById("rideCards").innerHTML = str;
                       },
@@ -493,7 +530,7 @@
             
                   $(document).ready(function(){
                           console.log("Calling getRider once more")
-                          setInterval(getRider,5000);
+                          setInterval(getRider,10000);
                   });
             
                   // window.addEventListener('load',function(){
@@ -599,3 +636,5 @@
 </body>
 
 </html>
+
+<!-- onclick= \"rideAccept(this)\" -->
