@@ -64,8 +64,27 @@ def acceptRider(request):
 	print(driverId)
 	print(riderId)
 	success =  ride.acceptRide(riderId , driverId)
-	return JsonResponse({'success' : success})
+	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
+	acceptList = []
+
+	for r in acceptedSet:
+		print(r)
+		data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+		acceptList.append(data_dict)
+	
+	print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	print(acceptList)
+	print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	return JsonResponse({'success' : success , 'acceptList' : acceptList})
 
 
 #<WSGIRequest: GET '/driver/accept?riderId=lodhuji&driverId=User01'>
 #<WSGIRequest: GET '/driver/driveProcess?id=User01&liveLat=19.7514798&liveLong=75.7138884&destination=New%20Delhi%20Railway%20Station%2C%20Kamla%20Market%2C%20Ajmeri%20Gate%2C%20New%20Delhi%2C%20Delhi%2C%20India'>
+
+def endRide(request):
+	riderId = request.GET['id']
+	r = get_object_or_404(ride, pk=riderId)
+	r.complete = True
+	r.save()
+	return JsonResponse({'success' : True})	
+
