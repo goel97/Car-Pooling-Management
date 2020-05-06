@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from rider.models import ride
 from django.core import serializers
 
+import numpy as np
 import googlemaps 
 import json
 
@@ -90,6 +91,7 @@ def endRide(request):
 	print(riderId)
 	r = get_object_or_404(ride, pk=riderId)
 	r.complete = True
+	cost = r.cost = np.random.randint(low=50, high=200)
 	r.save()
 
 	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
@@ -101,7 +103,7 @@ def endRide(request):
 		acceptList.append(data_dict)
 
 	print(acceptList)
-	
-	return JsonResponse({'success' : True , 'acceptList' : acceptList})
+	print("------------------------------------------------- "+str(cost) + " ----------------------------------------------")
+	return JsonResponse({'success' : True , 'acceptList' : acceptList, 'cost' : cost})
 	
 
