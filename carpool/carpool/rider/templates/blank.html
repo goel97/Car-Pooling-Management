@@ -551,7 +551,7 @@
   <script type="text/javascript">
       console.log("hello ajax")
 
-      function getMyJson(cond) {
+      function getMyJson() {
         console.log("in ajax")
         var userID = '{{paramDict.userId}}'
         console.log(userID)
@@ -570,16 +570,52 @@
               var cost = result['cost']
               if(result.success) { 
                   console.log("Ride Accepted!");
-                  if(complete){
+                  if(complete && window.nomoreup){
                     window.update =true;
-                    var image_x = document.getElementById('statuscard');
-                    image_x.parentNode.removeChild(image_x);
-                    image_x = document.getElementById('costcard');
+                    window.nomoreup =false;
+                    var image_x = document.getElementById('logistics');
                     image_x.parentNode.removeChild(image_x);
                     image_x = document.getElementById('finalride');
                     image_x.parentNode.removeChild(image_x);
-                  
-                    var str1 =' <div class="col-xl-3 col-md-6 mb-4" id="statuscard">'+
+
+                    var str = '<div class="row" id ="logistics">'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-primary shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PickUp</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.pickup}}'+'</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-success shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Destination</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.destination}}'+'</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4" id="statuscard">'+
                   '              <div class="card border-left-info shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
@@ -602,14 +638,15 @@
                   '                  </div>'+
                   '                </div>'+
                   '              </div>'+
-                  '            </div>';
-
-                  var str2 = '<div class="col-xl-3 col-md-6 mb-4">'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Pending Requests Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4" id="costcard">'+
                   '              <div class="card border-left-warning shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Expected cost</div>'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Ride Cost</div>'+
                   '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+cost+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
@@ -618,17 +655,19 @@
                   '                  </div>'+
                   '                </div>'+
                   '              </div>'+
-                  '            </div>';
-  
-                  document.getElementById("processingdiv").innerHTML += str1+str2;
+                  '            </div>'+
+                  '          </div>';
+                  
+                    
+                  document.getElementById("processingdiv").innerHTML = str;
                   var str3 = "<h1 class=\"h5 mb-4 text-primary\">Ride Copleted Please Pay the driver</h1>";
                   document.getElementById("proceedtopickup").innerHTML = str3;
 
-                  }else if(cond){
+                  }else if(window.cond){
                   window.cond =false
                   var image_x = document.getElementById('processingimg');
                   image_x.parentNode.removeChild(image_x);
-                  var str = '<div class="row">'+
+                  var str = '<div class="row" id ="logistics">'+
                   ''+
                   '            <!-- Earnings (Monthly) Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4">'+
@@ -734,6 +773,7 @@
         window.cond =true;
         window.update = false;
         window.statnum =0;
+        window.nomoreup =true;
         console.log("Calling getRider once more")
         setInterval(getMyJson,10000);
         });
