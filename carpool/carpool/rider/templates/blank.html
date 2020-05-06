@@ -42,7 +42,6 @@
       width:60%;
       height:60%;
       display: block;
-      border-radius: 6%;
     }
 
 
@@ -367,15 +366,16 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" id ="proceedtopickup">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+          <!-- <h1 class="h3 mb-4 text-gray-800">Blank Page</h1> -->
 
         </div>
         <!-- /.container-fluid -->
-        
-        <img src="{% static 'images/processing.gif' %}" style="margin-left: auto;margin-right: auto;display:block">
+        <div id ="processingdiv">
+          <img id="processingimg" src="{% static 'images/processing.gif' %}" style="margin-left: auto;margin-right: auto;display:block">
+        </div>
         <div class = "mapBox" id="map-canvas"></div>
 
       </div>
@@ -551,68 +551,195 @@
   <script type="text/javascript">
       console.log("hello ajax")
 
-
-      function redirectPost(url, data) {
-        var form = document.createElement('form');
-        document.body.appendChild(form);
-        form.method = 'post';
-        form.action = url;
-        for (var name in data) {
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = name;
-            input.value = data[name];
-            form.appendChild(input);
-        }
-        form.submit();
-    }
-
-      function wait(ms) { 
-        const start = performance.now(); 
-        while(performance.now() - start < ms); 
-      }
-
-      getMyJson();
-
-      function getMyJson() {
+      function getMyJson(cond) {
         console.log("in ajax")
         var userID = '{{paramDict.userId}}'
         console.log(userID)
+        console.log(window.update)
           $.ajax({
               type: "GET",
               url: '{% url "rider:statusUpdate"%}',
               data: {
-                id : userID 
+                id : userID,
+                update : window.update
               },
               datatype: "json",
               success: function(result) {
-              var json = result['userId'];
+              var driverId = result['driverId'];
+              var complete = result['complete']
+              var cost = result['cost']
               if(result.success) { 
                   console.log("Ride Accepted!");
-                  console.log(json);
+                  if(complete){
+                    window.update =true;
+                    var image_x = document.getElementById('statuscard');
+                    image_x.parentNode.removeChild(image_x);
+                    image_x = document.getElementById('costcard');
+                    image_x.parentNode.removeChild(image_x);
+                    image_x = document.getElementById('finalride');
+                    image_x.parentNode.removeChild(image_x);
+                  
+                    var str1 =' <div class="col-xl-3 col-md-6 mb-4" id="statuscard">'+
+                  '              <div class="card border-left-info shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Ride status</div>'+
+                  '                      <div class="row no-gutters align-items-center">'+
+                  '                        <div class="col-auto">'+
+                  '                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">'+100+'%'+'</div>'+
+                  '                        </div>'+
+                  '                        <div class="col">'+
+                  '                          <div class="progress progress-sm mr-2">'+
+                  '                            <div class="progress-bar bg-info" role="progressbar" style="width: '+100+'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>'+
+                  '                          </div>'+
+                  '                        </div>'+
+                  '                      </div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                     <i class="fas fa-hourglass-start fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>';
 
-                  //UNCOMMENT - to redirect
-                  //redirectPost('{% url "rider:rideSuccessful"%}', { userId:result['userId']})
+                  var str2 = '<div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-warning shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Expected cost</div>'+
+                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+cost+'</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-rupee-sign fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>';
+  
+                  document.getElementById("processingdiv").innerHTML += str1+str2;
+                  var str3 = "<h1 class=\"h5 mb-4 text-primary\">Ride Copleted Please Pay the driver</h1>";
+                  document.getElementById("proceedtopickup").innerHTML = str3;
+
+                  }else if(cond){
+                  window.cond =false
+                  var image_x = document.getElementById('processingimg');
+                  image_x.parentNode.removeChild(image_x);
+                  var str = '<div class="row">'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-primary shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PickUp</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.pickup}}'+'</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-success shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Destination</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.destination}}'+'</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4" id="statuscard">'+
+                  '              <div class="card border-left-info shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Ride status</div>'+
+                  '                      <div class="row no-gutters align-items-center">'+
+                  '                        <div class="col-auto">'+
+                  '                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">'+window.statnum+'%'+'</div>'+
+                  '                        </div>'+
+                  '                        <div class="col">'+
+                  '                          <div class="progress progress-sm mr-2">'+
+                  '                            <div class="progress-bar bg-info" role="progressbar" style="width: '+window.statnum+'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>'+
+                  '                          </div>'+
+                  '                        </div>'+
+                  '                      </div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                     <i class="fas fa-hourglass-start fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  ''+
+                  '            <!-- Pending Requests Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4" id="costcard">'+
+                  '              <div class="card border-left-warning shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Expected cost</div>'+
+                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-rupee-sign fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  '          </div>';
+                  var str2 = "<h1 id=\"finalride\" class=\"h5 mb-4 text-primary\">Ride Accepted Proceed to Pickup Point</h1>";
+                  document.getElementById("processingdiv").innerHTML = str;
+                  document.getElementById("proceedtopickup").innerHTML = str2;
+                  }
                   
               }else{
                   console.log("Response not yet met.");
-                  //console.log(json);
-                  wait(500);
+                  console.log(driverId);
+                  console.log(complete);
+                  console.log(cost);
+                  
                   console.log("calling again")
-                  getMyJson();
               }
           },
           error: function() {
               console.log("There was an error.");
               // Want to repeat AJAX call also in case of error? 
               // Then just uncomment the following two lines:
-              wait(1000);
-              getMyJson();
+              // getMyJson();
           }
           });
       }
+
+      $(document).ready(function(){
+        window.cond =true;
+        window.update = false;
+        window.statnum =0;
+        console.log("Calling getRider once more")
+        setInterval(getMyJson,10000);
+        });
       
   </script>
+  
 
 </body>
 

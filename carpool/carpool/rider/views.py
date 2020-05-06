@@ -40,11 +40,15 @@ def rideInfo(request):
 def statusUpdate(request):
 	print("here ----------------------------------")
 	id = request.GET['id']
+	update =request.GET['update']
 	rideDetils = get_object_or_404(ride, pk=id)
 	print("hello ----------------------------------",id)
 	if rideDetils.status :
-		return JsonResponse({'success':True,'userId':rideDetils.userId})
-	return JsonResponse({'success':False,'userId':rideDetils.userId})
+		if rideDetils.complete:
+			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':True,'cost':rideDetils.cost})
+		else:
+			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':False,'cost':0})
+	return JsonResponse({'success':False,'driverId':"none",'complete':False,'cost':0})
 
 ## UNCOMMENT - if we redirect to new page after ride acceptance
 def rideSuccessful(request):
