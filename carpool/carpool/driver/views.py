@@ -82,9 +82,26 @@ def acceptRider(request):
 #<WSGIRequest: GET '/driver/driveProcess?id=User01&liveLat=19.7514798&liveLong=75.7138884&destination=New%20Delhi%20Railway%20Station%2C%20Kamla%20Market%2C%20Ajmeri%20Gate%2C%20New%20Delhi%2C%20Delhi%2C%20India'>
 
 def endRide(request):
-	riderId = request.GET['id']
+	idList = request.GET['id']
+	ind = idList.find("&&&----&&&")
+	driverId = idList[:ind]
+	riderId = idList[ind+10: ]
+	print(driverId)
+	print(riderId)
 	r = get_object_or_404(ride, pk=riderId)
 	r.complete = True
 	r.save()
-	return JsonResponse({'success' : True})	
+
+	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
+	acceptList = []
+
+	for r in acceptedSet:
+		print(r)
+		data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+		acceptList.append(data_dict)
+
+	print(acceptList)
+	
+	return JsonResponse({'success' : True , 'acceptList' : acceptList})
+	
 

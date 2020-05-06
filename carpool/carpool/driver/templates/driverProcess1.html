@@ -447,7 +447,6 @@
                   var destPoint = '{{dest}}'
                   var userID = '{{username}}'
 
-
                   function endRide(elem){
                     new_id = (elem.id).slice(6)
                     console.log(new_id)
@@ -455,12 +454,31 @@
                       type: "GET",
                       url: '{% url "driver:endRide"%}',
                       data: {
-                        id : new_id,
+                        id : userID + "&&&----&&&" + new_id 
                       },
                       datatype: "json",
-                      success: function(result) {
-                        
-                      console.log("Hurray !!!!!! ride Ended")
+                      success: function(result){
+
+                      $("div.cardsForAccept").remove(); 
+                      wait(5000);
+                      console.log("displaying cards accepted)))))))))))))))))))))))))))))))))))))")
+                      console.log(result["acceptList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
+                      console.log(" end ride yooho ######")  //of Cards using JS. Aslo check for empty or something
+                      //console.log("hello"+(result["acceptList"].length))
+
+                      var lenCards = result["acceptList"].length;
+  
+                      var str = "" 
+                      for(var i=0; i < lenCards; i++) {
+
+                        console.log("i --- " + result["acceptList"][i].riderId)
+                        var id1 = "@@%%$$" + result["acceptList"][i]["riderId"]
+                        var id2 = "@@%%##" + result["acceptList"][i]["riderId"]
+
+                        str += "<div class=\"cardsForAccept\" ><div class=\"card shadow mb-4\" ><div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\"><h6 class=\"m-0 font-weight-bold text-primary\"> Ride" + (i+1) + "</h6><div class=\"dropdown no-arrow\"><a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i></a><div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\"><div class=\"dropdown-header\">OPTIONS</div><a class=\"dropdown-item\" href=\"#\" onclick= \"endRide(this)\" id = "+id1+">End Ride</a><a class=\"dropdown-item\" href=\"#\" onclick= \"cancelRide(this)\" id = "+id2+">Cancel Ride </a></div></div></div><div class=\"card-body\">Rider Name :<span style=\"color:blue\">" + result["acceptList"][i]["riderId"] + "</span><br>Pickup Location :<span style=\"color:blue\">" + result["acceptList"][i]["pickUp"] + "</span><br>Destination : <span style=\"color:blue\">" + result["acceptList"][i]["destination"] + "</span><br></div></div>"
+                      }
+                       document.getElementById("acceptCards").innerHTML = str;
+
                       },
                       error: function() {
                           console.log("There was an error.");
