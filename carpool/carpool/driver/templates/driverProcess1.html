@@ -438,28 +438,8 @@
                 <div class="col-lg-6" id = "rideCards">
                 
                 <script type="text/javascript">
-                  console.log("hello ajax")
-            		var maxCapacity = 4, seatsFilled = 0;
-                  function redirectPost(url, data) {
-                    var form = document.createElement('form');
-                    document.body.appendChild(form);
-                    form.method = 'post';
-                    form.action = url;
-                    for (var name in data) {
-                        var input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = name;
-                        input.value = data[name];
-                        form.appendChild(input);
-                    }
-                    form.submit();
-                }
-            
-                  function wait(ms) { 
-                    const start = performance.now(); 
-                    while(performance.now() - start < ms); 
-                  }
-            
+            		  var maxCapacity = 4, seatsFilled = 0;
+                  
                   //getRider();
                   var destPoint = '{{dest}}'
                   var userID = '{{username}}'
@@ -467,7 +447,6 @@
                   function endRide(elem){
                   	seatsFilled -= 1;
                     new_id = (elem.id).slice(6)
-                    console.log(new_id + "in EndRide")
                     $.ajax({
                       type: "GET",
                       url: '{% url "driver:endRide"%}',
@@ -478,21 +457,20 @@
                       success: function(result){
 
                       $("div.cardsForAccept").remove(); 
-                      wait(5000);
-                      console.log("displaying cards accepted)))))))))))))))))))))))))))))))))))))")
-                      console.log(result["acceptList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
-                      console.log(" end ride yooho ######")  //of Cards using JS. Aslo check for empty or something
-                      //console.log("hello"+(result["acceptList"].length))
+                      // console.log("displaying cards accepted)))))))))))))))))))))))))))))))))))))")
+                      // console.log(result["acceptList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
+                      // console.log(" end ride yooho ######")  //of Cards using JS. Aslo check for empty or something
+                      // //console.log("hello"+(result["acceptList"].length))
 
                       var lenCards = result["acceptList"].length;
                       var cost = result["cost"]
-                      console.log("TRYING TO ALERT-----------------------------")
+                      
   					  document.getElementById("fareDiv").innerHTML = cost;
-  					  console.log("TRYING-----------------------------------")
+  					 
                       var str = "" 
                       for(var i=0; i < lenCards; i++) {
 
-                        console.log("i --- " + result["acceptList"][i].riderId)
+                        
                         var id1 = "@@%%$$" + result["acceptList"][i]["riderId"]
                         var id2 = "@@%%##" + result["acceptList"][i]["riderId"]
 
@@ -512,10 +490,9 @@
                   		alert("Seating Capacity Full.");
                   		return;
                   	}
-                  console.log("comin here comin")
-                  console.log(elem.id +"~~~~~~~~~~~~~~~~~~~~~~~@@@@@@@@@@@###############")
+                 
                   new_id = (elem.id).slice(14)
-                  console.log(new_id)
+                  
 
                    $.ajax({
                       type: "GET",
@@ -527,10 +504,9 @@
                       success: function(result){
                       	seatsFilled += 1;
                       $("div.cardsForAccept").remove(); 
-                      wait(5000);
-                      console.log("displaying cards accepted)))))))))))))))))))))))))))))))))))))")
-                      console.log(result["acceptList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
-                      console.log("ride Accepted")  //of Cards using JS. Aslo check for empty or something
+                      // console.log("displaying cards accepted)))))))))))))))))))))))))))))))))))))")
+                      // console.log(result["acceptList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
+                      //of Cards using JS. Aslo check for empty or something
                       //console.log("hello"+(result["acceptList"].length))
 
                       var lenCards = result["acceptList"].length;
@@ -538,7 +514,7 @@
                       var str = "" 
                       for(var i=0; i < lenCards; i++) {
 
-                        console.log("i --- " + result["acceptList"][i].riderId)
+                        
                         var id1 = "@@%%$$" + result["acceptList"][i]["riderId"]
                         var id2 = "@@%%##" + result["acceptList"][i]["riderId"]
 
@@ -561,11 +537,7 @@
 
 
                   function getRider(callback) {
-                    console.log("in ajax")
-                    //initMap()
-                    console.log("after initMap")
-                    console.log(document.getElementById('map-search').value)
-            
+                  
                     $.ajax({
                       type: "GET",
                       url: '{% url "driver:searchRider"%}',
@@ -577,19 +549,15 @@
                       },
                       datatype: "json",
                       success: function(result) {
-                      console.log("removing cards")
+                      
                       $("div.cardsForRide").remove(); 
-                      wait(5000);
-                      console.log("displaying cards")
-                      console.log(result["rideList"]) //Here is the list of potential rides after algo: Iterate over this and do dynamic render
-                      console.log("ride Accepted")  //of Cards using JS. Aslo check for empty or something
-                      console.log("hello"+(result["rideList"].length))
-
+                      
+                      
                       var lenCards = result["rideList"].length;
                       document.getElementById("rideRequestsDiv").innerHTML = lenCards;
                       var str = "" 
                       for(var i=0; i < lenCards; i++) {
-                        console.log("i --- " + result["rideList"][i].riderId)
+                        
 
                         var id1 = "@$#acceptRider" + result["rideList"][i]["riderId"]  
                         var id2 = "@$#rejectRider" + result["rideList"][i]["riderId"] 
