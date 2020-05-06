@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from rider.models import ride
 from django.core import serializers
 
+import numpy as np
 import googlemaps 
 import json
 
@@ -64,8 +65,45 @@ def acceptRider(request):
 	print(driverId)
 	print(riderId)
 	success =  ride.acceptRide(riderId , driverId)
-	return JsonResponse({'success' : success})
+	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
+	acceptList = []
+
+	for r in acceptedSet:
+		print(r)
+		data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+		acceptList.append(data_dict)
+	
+	print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	print(acceptList)
+	print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+	return JsonResponse({'success' : success , 'acceptList' : acceptList})
 
 
 #<WSGIRequest: GET '/driver/accept?riderId=lodhuji&driverId=User01'>
 #<WSGIRequest: GET '/driver/driveProcess?id=User01&liveLat=19.7514798&liveLong=75.7138884&destination=New%20Delhi%20Railway%20Station%2C%20Kamla%20Market%2C%20Ajmeri%20Gate%2C%20New%20Delhi%2C%20Delhi%2C%20India'>
+
+def endRide(request):
+	idList = request.GET['id']
+	ind = idList.find("&&&----&&&")
+	driverId = idList[:ind]
+	riderId = idList[ind+10: ]
+	print(driverId)
+	print(riderId)
+	r = get_object_or_404(ride, pk=riderId)
+	r.complete = True
+	cost = r.cost = np.random.randint(low=50, high=200)
+	r.save()
+
+	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
+	acceptList = []
+
+	for r in acceptedSet:
+		print(r)
+		data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+		acceptList.append(data_dict)
+
+	print(acceptList)
+	print("------------------------------------------------- "+str(cost) + " ----------------------------------------------")
+	return JsonResponse({'success' : True , 'acceptList' : acceptList, 'cost' : cost})
+	
+
