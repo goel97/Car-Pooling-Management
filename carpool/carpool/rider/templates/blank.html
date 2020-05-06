@@ -115,10 +115,10 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Book-Ride</a>
-            <a class="collapse-item" href="utilities-border.html">Drive</a>
-            <a class="collapse-item" href="utilities-animation.html">Login</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <a class="collapse-item" href='{% url "rider:ride"%}'>Book-Ride</a>
+            <a class="collapse-item" href='{% url "driver:driverHome"%}'>Drive</a>
+            <a class="collapse-item" href='{% url "logPage:index"%}'>Login</a>
+            <a class="collapse-item" href="">Other</a>
           </div>
         </div>
       </li>
@@ -140,9 +140,9 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item active" href="login.html">Login</a>
-            <a class="collapse-item active" href="register.html">Register</a>
-            <a class="collapse-item active" href="forgot-password.html">Change Password</a>
+            <a class="collapse-item active" href='{% url "logPage:index"%}'>Login</a>
+            <a class="collapse-item active" href='{% url "logPage:register"%}'>Register</a>
+            <a class="collapse-item active" href="">Change Password</a>
           </div>
         </div>
       </li>
@@ -360,7 +360,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; HitchRide 2019</span>
+            <span>Copyright &copy; HitchRide 2020</span>
           </div>
         </div>
       </footer>
