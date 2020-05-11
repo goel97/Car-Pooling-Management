@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
   
-    <title>Driver Dashboard</title>
+    <title>HitchRide - Driver Dashboard</title>
   
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -527,8 +527,9 @@
                       
                       $("div.cardsForRide").remove(); 
                       
-                      
+                      console.log(result["rideList"] + " *************@@@@@@@@@@@@###############$$$$")
                       var lenCards = result["rideList"].length;
+
                       document.getElementById("rideRequestsDiv").innerHTML = lenCards;
                       var str = "" 
                       for(var i=0; i < lenCards; i++) {

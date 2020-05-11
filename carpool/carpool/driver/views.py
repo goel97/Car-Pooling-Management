@@ -28,6 +28,7 @@ def searchRider(request):
 	driverId = request.GET['id']
 	liveLat = request.GET['liveLat']
 	liveLong = request.GET['liveLong']
+	driver_dest = request.GET['destination']
 	print(liveLat + "++++++" + liveLong);
 	print(request.GET['destination'])
 	print("*******************&&&&&&&&&&&&&&&&&&&&&&&&&&&**********************")
@@ -44,8 +45,10 @@ def searchRider(request):
 		print(r)
 		my_dist = gmaps.distance_matrix((float(liveLat) ,float(liveLong)) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
 		my_dist = my_dist/1000.0
+		my_dist_1 = gmaps.distance_matrix(driver_dest , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
+		my_dist_1 = my_dist_1/1000.0
 		print("the distance is " + str(my_dist))
-		if my_dist < 100000:
+		if my_dist < 20 and my_dist_1 < 20:
 			data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
 			rideList.append(data_dict)
 

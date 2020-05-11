@@ -44,16 +44,15 @@ def validateForm(input):
 	# 				   firstName = input['firstName'] , lastName = input['lastName'])
 	# 	newUser.save()
 	# 	return False
-
+ 
 
 def addUser(request):
 	context = {'userExist' : False}
 	if request.method == "POST":
 		if validateForm(request.POST) == True:
 			context['userExist'] = True
-			return render(request , "register.html" , context)
-		
-	return render(request  , "drive_or_ride.html" , {})
+			return render(request , "register.html" , context)	
+	return render(request  , "login.html" , {})
 
 def verifyUser(request):
 	context = {'loginFail' : False , 'userExist' : True}
