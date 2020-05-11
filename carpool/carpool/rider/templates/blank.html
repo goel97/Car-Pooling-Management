@@ -50,8 +50,8 @@
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
     #map-canvas{
-     min-width: 100%;
-     min-height: 100%;
+     min-width: 80%;
+     min-height: 80%;
     }
   </style>
 
@@ -348,7 +348,7 @@
 
         </div>
         <!-- /.container-fluid -->
-        <div id ="processingdiv">
+        <div class = "container-fluid" id ="processingdiv">
           <img id="processingimg" src="{% static 'images/processing.gif' %}" style="margin-left: auto;margin-right: auto;display:block">
         </div>
         <div class = "mapBox" id="map-canvas"></div>
@@ -553,7 +553,87 @@
                     image_x = document.getElementById('finalride');
                     image_x.parentNode.removeChild(image_x);
 
-                    var str = '<div class="row" id ="logistics">'+
+                    var str = '<div class="row" id ="feedback">'+
+                  ''+
+                  '            <!-- Earnings (Monthly) Card Example -->'+
+                  '            <div class="col-xl-3 col-md-6 mb-4">'+
+                  '              <div class="card border-left-warning shadow h-100 py-2">'+
+                  '                <div class="card-body">'+
+                  '                  <div class="row no-gutters align-items-center">'+
+                  '                    <div class="col mr-2">'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Ride Rating</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+
+                  
+                 
+                  '<style>'+
+                  '*{'+
+                  '    margin: 0;'+
+                  '    padding: 0;'+
+                  '}'+
+                  '.rate {'+
+                  '    float: left;'+
+                  '   height: 46px;'+
+                  '    padding: 0 10px;'+
+                  '}'+
+                  '.rate:not(:checked) > input {'+
+                  '    position:absolute;'+
+                  '    top:-9999px;'+
+                  '}'+
+                  '.rate:not(:checked) > label {'+
+                  '    float:right;'+
+                  '    width:1em;'+
+                  '    overflow:hidden;'+
+                  '    white-space:nowrap;'+
+                  '    cursor:pointer;'+
+                  '    font-size:30px;'+
+                  '    color:#ccc;'+
+                  '}'+
+                  '.rate:not(:checked) > label:before {'+
+                  '    content: \'★ \'; '+
+                  '}'+
+                  '.rate > input:checked ~ label {'+
+                  '    color: #ffc700;    '+
+                  '}'+
+                  '.rate:not(:checked) > label:hover,'+
+                  '.rate:not(:checked) > label:hover ~ label {'+
+                  '    color: #deb217;  '+
+                  '}'+
+                  '.rate > input:checked + label:hover,'+
+                  '.rate > input:checked + label:hover ~ label,'+
+                  '.rate > input:checked ~ label:hover,'+
+                  '.rate > input:checked ~ label:hover ~ label,'+
+                  '.rate > label:hover ~ input:checked ~ label {'+
+                  '    color: #c59b08;'+
+                  '}'+
+                  
+                  
+                  '</style>'+
+                  
+                 
+                  '                         <div class="rate">'+
+                  '                            <input type="radio" id="star5" name="rate" value="5" />'+
+                  '                            <label for="star5" title="text">5 stars</label>'+
+                  '                            <input type="radio" id="star4" name="rate" value="4" />'+
+                  '                            <label for="star4" title="text">4 stars</label>'+
+                  '                            <input type="radio" id="star3" name="rate" value="3" />'+
+                  '                            <label for="star3" title="text">3 stars</label>'+
+                  '                            <input type="radio" id="star2" name="rate" value="2" />'+
+                  '                            <label for="star2" title="text">2 stars</label>'+
+                  '                            <input type="radio" id="star1" name="rate" value="1" />'+
+                  '                            <label for="star1" title="text">1 star</label>'+
+                  '                         </div>'+
+                  '                       </div>'+
+                  '                    </div>'+
+                  '                    <div class="col-auto">'+
+                  '                      <i class="fas fa-comments fa-2x "></i>'+
+                  '                    </div>'+
+                  '                  </div>'+
+                  '                </div>'+
+                  '              </div>'+
+                  '            </div>'+
+                  '</div>'+
+                  ''+
+                  '<div class="row" id ="logistics">'+
                   ''+
                   '            <!-- Earnings (Monthly) Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4">'+
@@ -574,11 +654,11 @@
                   ''+
                   '            <!-- Earnings (Monthly) Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4">'+
-                  '              <div class="card border-left-success shadow h-100 py-2">'+
+                  '              <div class="card border-left-warning shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Destination</div>'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Destination</div>'+
                   '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.destination}}'+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
@@ -617,11 +697,11 @@
                   ''+
                   '            <!-- Pending Requests Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4" id="costcard">'+
-                  '              <div class="card border-left-warning shadow h-100 py-2">'+
+                  '              <div class="card border-left-success shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Ride Cost</div>'+
+                  '                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ride Cost</div>'+
                   '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+cost+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
@@ -663,11 +743,11 @@
                   ''+
                   '            <!-- Earnings (Monthly) Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4">'+
-                  '              <div class="card border-left-success shadow h-100 py-2">'+
+                  '              <div class="card border-left-warning shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Destination</div>'+
+                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Destination</div>'+
                   '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.destination}}'+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
@@ -706,12 +786,12 @@
                   ''+
                   '            <!-- Pending Requests Card Example -->'+
                   '            <div class="col-xl-3 col-md-6 mb-4" id="costcard">'+
-                  '              <div class="card border-left-warning shadow h-100 py-2">'+
+                  '              <div class="card border-left-success shadow h-100 py-2">'+
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Expected cost</div>'+
-                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>'+
+                  '                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expected cost</div>'+
+                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+ (Math.floor(Math.random() * 200) + 35)+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
                   '                      <i class="fas fa-rupee-sign fa-2x "></i>'+
