@@ -47,8 +47,13 @@ def searchRider(request):
 		my_dist = my_dist/1000.0
 		my_dist_1 = gmaps.distance_matrix(driver_dest , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
 		my_dist_1 = my_dist_1/1000.0
+		cost = gmaps.distance_matrix(r.pickUp , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
+		cost = cost/1000.0
+		cost = cost*10
+		r.cost = cost
+		r.save()
 		print("the distance is " + str(my_dist))
-		if my_dist < 20 and my_dist_1 < 20:
+		if my_dist < 1000 and my_dist_1 < 1000:
 			data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
 			rideList.append(data_dict)
 
@@ -94,7 +99,6 @@ def endRide(request):
 	print(riderId)
 	r = get_object_or_404(ride, pk=riderId)
 	r.complete = True
-	cost = r.cost = np.random.randint(low=50, high=200)
 	r.save()
 
 	acceptedSet = ride.objects.select_for_update().filter(status = True , driverId = driverId , complete = False)
@@ -106,7 +110,7 @@ def endRide(request):
 		acceptList.append(data_dict)
 
 	print(acceptList)
-	print("------------------------------------------------- "+str(cost) + " ----------------------------------------------")
-	return JsonResponse({'success' : True , 'acceptList' : acceptList, 'cost' : cost})
+	print("------------------------------------------------- "+str(r.cost) + " ----------------------------------------------")
+	return JsonResponse({'success' : True , 'acceptList' : acceptList, 'cost' : r.cost})
 	
 
