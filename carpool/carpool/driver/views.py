@@ -53,7 +53,7 @@ def searchRider(request):
 		r.cost = cost
 		r.save()
 		print("the distance is " + str(my_dist))
-		if my_dist < 1000 and my_dist_1 < 1000:
+		if my_dist < 20 and my_dist_1 < 20:
 			data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
 			rideList.append(data_dict)
 

@@ -641,11 +641,11 @@
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PickUp</div>'+
-                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.pickup}}'+'</div>'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Driver Contact</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+driverId+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
-                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                      <i class="fas fa-phone fa-2x "></i>'+
                   '                    </div>'+
                   '                  </div>'+
                   '                </div>'+
@@ -715,7 +715,7 @@
                   
                     
                   document.getElementById("processingdiv").innerHTML = str;
-                  var str3 = "<h1 class=\"h5 mb-4 text-primary\">Ride Copleted Please Pay the driver</h1>";
+                  var str3 = "<h1 class=\"h5 mb-4 text-primary\">Ride Completed Please Pay the driver</h1>";
                   document.getElementById("proceedtopickup").innerHTML = str3;
 
                   }else if(window.cond){
@@ -730,11 +730,11 @@
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PickUp</div>'+
-                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+'{{paramDict.pickup}}'+'</div>'+
+                  '                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Driver Contact</div>'+
+                  '                      <div class="h7 mb-0 font-weight-bold text-gray-600">'+driverId+'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
-                  '                      <i class="fas fa-location-arrow fa-2x "></i>'+
+                  '                      <i class="fas fa-phone fa-2x "></i>'+
                   '                    </div>'+
                   '                  </div>'+
                   '                </div>'+
@@ -791,7 +791,7 @@
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
                   '                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expected cost</div>'+
-                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+ cost+'</div>'+
+                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+ (cost - Math.floor(Math.random() * 11)) +'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
                   '                      <i class="fas fa-rupee-sign fa-2x "></i>'+
