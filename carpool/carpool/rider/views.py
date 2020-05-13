@@ -66,3 +66,9 @@ def rideSuccessful(request):
 		rideDetails = get_object_or_404(ride, pk=id)
 	#return render(request, 'polls/results.html', {'rideDetails': rideDetails})
 	return HttpResponse("<h1>SUCCESS </h1>")
+
+# def endRide(request):
+# 	print(request.GET['id'], "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+# 	ride.objects.filter(pk=request.GET['id']).delete()
+# 	print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
+# 	return render(request , "drive_or_ride.html" , {'user': request.GET['id']})

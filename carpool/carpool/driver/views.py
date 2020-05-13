@@ -46,7 +46,7 @@ def searchRider(request):
 	# print(len(driverRoutePoints[0]))
 	# print(type(driverRoutePoints[0]))
 	# legs = driverRoutePoints[0].get("legs")
-	print("----------------------------------------------------------------------------------------")
+	# print("----------------------------------------------------------------------------------------")
 	temp = []
 	for leg in driverRoutePoints[0]['legs']:
 		for step in leg['steps']:
@@ -58,28 +58,40 @@ def searchRider(request):
 			# print(step.get("start_location"), " || ", step.get("end_location"))
 			temp.append(step.get("start_location"))
 			temp.append(step.get("end_location"))
-	driverRoutePoints = temp
+	idx = np.round(np.linspace(0, len(temp) - 1, min(10, len(temp)))).astype(int)
+	driverRoutePoints = []
+	for x in idx:
+		driverRoutePoints.append(temp[x])
+	print(len(driverRoutePoints), "%%%%%%%%%%%%%%%%%")
 	for r in riderSet:
 		for point in driverRoutePoints:		
-			print(type(r))
-			print(r)
+			# print(type(r))
+			# print(r)
 			my_dist = gmaps.distance_matrix(point , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
 			my_dist = my_dist/1000.0
 			# my_dist_1 = gmaps.distance_matrix(driver_dest , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
 			# my_dist_1 = my_dist_1/1000.0
 			expTime = gmaps.distance_matrix(r.pickUp , (liveLat, liveLong))['rows'][0]['elements'][0]["duration"]["text"]
-			print(expTime , "-------------------------------------------")
+			# print(expTime , "-------------------------------------------")
 			# cost = cost/1000.0
 			# cost = cost*10
 			# r.cost = cost
 			# r.save()
-			print("the distance is " + str(my_dist))
-			if my_dist < 50:
-				r.expectedTime = expTime
-				data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
-				rideList.append(data_dict)
-				r.save()
-				break
+			# print("the distance is " + str(my_dist))
+			if my_dist < 60 :
+				flag = False
+				for point in driverRoutePoints:
+					my_dist = gmaps.distance_matrix(point , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
+					my_dist = my_dist/1000.0
+					if my_dist < 60:
+						flag = True
+						break
+				if flag == True:
+					r.expectedTime = expTime
+					data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+					rideList.append(data_dict)
+					r.save()
+					break
 
 	#rideList = json.dumps(rideList)
 	return JsonResponse({'rideList': rideList})
