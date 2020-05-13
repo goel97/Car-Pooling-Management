@@ -9,6 +9,7 @@ class ride(models.Model):
 	status = models.BooleanField(default=False)
 	cost = models.PositiveIntegerField(default = 0)
 	driverId = models.CharField(max_length = 200 , default = None, null = True)
+	expectedTime = models.CharField(max_length=200, default="inf")
 
 	def __str__(self):
 		return (self.userId + " ---- " + self.destination)

@@ -23,7 +23,7 @@ def driverInfo(request):
 	return render(request , "driverProcess1.html" , {'username' : request.user.username , 'dest' : request.POST['destination']})
 
 def searchRider(request):
-	print("*******************&&&&&&&&&&&&&&&&&&&&&&&&&&&**********************")
+	print("@@@@@@@@@@@@@@@@@@@@@@@@@*******************&&&&&&&&&&&&&&&&&&&&&&&&&&&**********************")
 	print(request)
 	driverId = request.GET['id']
 	liveLat = request.GET['liveLat']
@@ -38,24 +38,48 @@ def searchRider(request):
 
 	riderSet = ride.objects.select_for_update().filter(status = False , complete = False)
 	rideList = []
-
-	gmaps = googlemaps.Client(key='AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA') 
+	print(riderSet)
+	print("####################----------------------------------------------------------------------------------------")
+	gmaps = googlemaps.Client(key='AIzaSyB64EM3P7XmfNlop7aUjzacIXAQJVAMjkA')
+	print("@@@@@@@@@@@@@@@@@@@@@----------------------------------------------------------------------------------------")
+	driverRoutePoints = gmaps.directions((float(liveLat) ,float(liveLong)), driver_dest, mode="driving")
+	# print(len(driverRoutePoints[0]))
+	# print(type(driverRoutePoints[0]))
+	# legs = driverRoutePoints[0].get("legs")
+	print("----------------------------------------------------------------------------------------")
+	temp = []
+	for leg in driverRoutePoints[0]['legs']:
+		for step in leg['steps']:
+			html_instructions = step['html_instructions']
+			instr= step['distance']['text']
+			instrtime=step['duration']['text']
+			# print(step.keys())
+			# print (html_instructions + " ||| " +instr+ " ||| " + instrtime + "!!!!!!!!!!!!!")
+			# print(step.get("start_location"), " || ", step.get("end_location"))
+			temp.append(step.get("start_location"))
+			temp.append(step.get("end_location"))
+	driverRoutePoints = temp
 	for r in riderSet:
-		print(type(r))
-		print(r)
-		my_dist = gmaps.distance_matrix((float(liveLat) ,float(liveLong)) , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
-		my_dist = my_dist/1000.0
-		my_dist_1 = gmaps.distance_matrix(driver_dest , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
-		my_dist_1 = my_dist_1/1000.0
-		cost = gmaps.distance_matrix(r.pickUp , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
-		cost = cost/1000.0
-		cost = cost*10
-		r.cost = cost
-		r.save()
-		print("the distance is " + str(my_dist))
-		if my_dist < 20 and my_dist_1 < 20:
-			data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
-			rideList.append(data_dict)
+		for point in driverRoutePoints:		
+			print(type(r))
+			print(r)
+			my_dist = gmaps.distance_matrix(point , r.pickUp)['rows'][0]['elements'][0]["distance"]["value"]
+			my_dist = my_dist/1000.0
+			# my_dist_1 = gmaps.distance_matrix(driver_dest , r.destination)['rows'][0]['elements'][0]["distance"]["value"]
+			# my_dist_1 = my_dist_1/1000.0
+			expTime = gmaps.distance_matrix(r.pickUp , (liveLat, liveLong))['rows'][0]['elements'][0]["duration"]["text"]
+			print(expTime , "-------------------------------------------")
+			# cost = cost/1000.0
+			# cost = cost*10
+			# r.cost = cost
+			# r.save()
+			print("the distance is " + str(my_dist))
+			if my_dist < 50:
+				r.expectedTime = expTime
+				data_dict = {'riderId':r.userId , 'pickUp': r.pickUp , 'destination' : r.destination}
+				rideList.append(data_dict)
+				r.save()
+				break
 
 	#rideList = json.dumps(rideList)
 	return JsonResponse({'rideList': rideList})

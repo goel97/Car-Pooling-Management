@@ -52,10 +52,10 @@ def statusUpdate(request):
 	print("hello ----------------------------------",id)
 	if rideDetils.status :
 		if rideDetils.complete:
-			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':True,'cost':my_dist_1})
+			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':True,'cost':my_dist_1, 'expectedTime':rideDetils.expectedTime})
 		else:
-			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':False,'cost':my_dist_1})
-	return JsonResponse({'success':False,'driverId':"none",'complete':False,'cost':0})
+			return JsonResponse({'success':True,'driverId':rideDetils.driverId,'complete':False,'cost':my_dist_1, 'expectedTime':rideDetils.expectedTime})
+	return JsonResponse({'success':False,'driverId':"none",'complete':False,'cost':0, 'expectedTime':rideDetils.expectedTime})
 
 ## UNCOMMENT - if we redirect to new page after ride acceptance
 def rideSuccessful(request):

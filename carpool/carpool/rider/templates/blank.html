@@ -543,6 +543,7 @@
               var driverId = result['driverId'];
               var complete = result['complete']
               var cost = result['cost']
+              var expTime = result['expectedTime']
               if(result.success) { 
                   console.log("Ride Accepted!");
                   if(complete && window.nomoreup){
@@ -790,11 +791,11 @@
                   '                <div class="card-body">'+
                   '                  <div class="row no-gutters align-items-center">'+
                   '                    <div class="col mr-2">'+
-                  '                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expected cost</div>'+
-                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+ (cost - Math.floor(Math.random() * 11)) +'</div>'+
+                  '                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expected Time</div>'+
+                  '                      <div class="h5 mb-0 font-weight-bold text-gray-800">'+ (expTime) +'</div>'+
                   '                    </div>'+
                   '                    <div class="col-auto">'+
-                  '                      <i class="fas fa-rupee-sign fa-2x "></i>'+
+                  '                      <i class="fas fa-clock fa-2x "></i>'+
                   '                    </div>'+
                   '                  </div>'+
                   '                </div>'+
