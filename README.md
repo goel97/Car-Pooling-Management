@@ -76,15 +76,6 @@ Python is an interpreted, high-level, general-purpose programming language.
 
 The API is used to make calls to different APIs using Python.
 
-### Git
-
-Git is a distributed version-control system for tracking changes in source code during software development. It is designed for coordinating work among programmers, but it can be used to track changes in any set of files.
-
-___
-## Size of Project
-
-The project comprises of around 10k lines written by team members. After including the system generated code and library code the codebase has around 400k lines.
-
 ---
 ## Functionality
 
