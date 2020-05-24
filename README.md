@@ -1,4 +1,3 @@
-
 Carpool-Management-System
 ===
 
@@ -44,13 +43,47 @@ $ python manage.py runserver
 
 
 ---
-## Google APIs Used
+## Technologies Used
+
+### Django Framework
+
+Django is a Python-based free and open-source web framework, which follows the model-template-view architectural pattern.
+
+### Google APIs Used
 * **Directions API** - It is used to display route between two points. Route similarity is inferred based on this to broadcast ride request to specific drivers.
 * **Distance Matrix API** - It is used to get distance between two points. This is used to decide fare of ride.
 *  **Geocoding API** - It is used to convert a place name(For eg: Central Park, New York) to its corresponding coordinates(latitude and longitude). 
 *  **Maps JavaScript API** - The API is used to make calls to different APIs using JavaScript.
 *  **Places API** - The API is used to get suggestions of places when user types a string.
 
+### Jquery
+
+jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax. 
+
+### Javascript
+
+JavaScript, often abbreviated as JS, is a programming language that conforms to the ECMAScript specification. JavaScript is high-level, often just-in-time compiled, and multi-paradigm. It has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.
+
+### Bootstrap
+
+Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains CSS- and JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
+
+### Python
+
+Python is an interpreted, high-level, general-purpose programming language.
+
+### Python Google Maps API
+
+The API is used to make calls to different APIs using Python.
+
+### Git
+
+Git is a distributed version-control system for tracking changes in source code during software development. It is designed for coordinating work among programmers, but it can be used to track changes in any set of files.
+
+___
+## Size of Project
+
+The project comprises of around 10k lines written by team members. After including the system generated code and library code the codebase has around 400k lines.
 
 ---
 ## Functionality
@@ -59,7 +92,6 @@ There are two cateogories of users:
 * **Driver** - A user who wants to share his ride with other people along the same route or is a full-time driver.
 
 * **Rider** - A user(other than driver) sharing a ride. He can book in realtime and will be assigned a driver from the pool of drivers available.
-  
 
 ### User Authentication
 ```gherkin=
@@ -68,17 +100,28 @@ Feature: Login
 
     A user who already has an account
     authenticates to use the service
+    
+Feature: Password Incorrect
+
+Feature: Update Password
+
+    Allow user to update password incase he/she 
+    has forgotton the password.
 
 Feature: Register
 
     First time user can register and then continue
     to use the service
+    
+Feature: Userid Already Exists
+
+    Checks if user with userId already exists 
+    while registeration 
 
 Feature: Select your choice
 
     Depending on your need, you can either book a
     ride or opt for drive
-
 
 ```
 ---
@@ -94,21 +137,51 @@ Feature: Opt to Ride
     destination. Thereafter are directed to driver
     dashboard, where we have the following features:
     
-    Feature: Accept/Reject a Ride
+    Feature: Seating Capacity
+    
+        Shows the number od seats currently
+        available
+    
+    Feature: Number of Ride Request
+    
+        Shows the number of ride requestes pending
+        currenty
+    
+    Feature: Seating Capacity Full
+    
+        If the seating capacity is full driver
+        can't accept more rides
+    
+    Feature: Ride Requests Cards
+    
+        The driver dashbaord shows the ride
+        request cards, which get updated
+        dynamically on our application whenever a
+        new rides comes and are removed
+        dynamically if driver accepts the ride
+    
+    Feature: Accept a Ride
+    
         Driver receives notification with the
-        location of the rider to accept/reject his
+        location of the rider to accept his
         request.
+    
+    Feature: Accepted Rides Cards
+    
+        The driver dashbaord shows the accepted
+        ride cards, which get updated
+        dynamically on our application whenever
+        driver accepts a ride and are removed
+        dynamically if driver ends the ride
         
     Feature: End a Ride
+    
         Once a rider has reached his destination,
         the Driver will end his ride and collect
         displayed fare.
-         
-    Feature: Cancel a Ride
-        If a rider takes too long,the driver can
-        opt to cancel his ride.
     
     Feature: Calculate and Display Payment
+    
         Depending on the cost computing algorithm,
         the payment will be displayed at the end
         of ride. The geocoding API is used to get
@@ -121,27 +194,41 @@ Feature: Opt to Ride
 ### Rider Functionality
 ```gherkin=
 Feature: Live Car-Pooling
+
     Real-Time reuesting to share a ride with near
     by users (drivers)
   
     Feature: Create Request
+    
         The Rider will give his location and the
         place of destination.
         
     Feature: Show route to Pickup Point
+    
         While rider request is being processed,
         the Rider will be shown the route to his
         pickup point
     
-    Feature: Display Driver Details
-        Once ride is accepted, the details of
-        assigned rider are displayed to the rider.
+    Feature: Ride Details
+    
+        Once ride is accepted, the details of the
+        rides are updated dynamically and show in 
+        form of cards 
         
-    Feature: Display Payment Details
-        The payment details are shown to rider
-        once his ride has ended.
-
-            
+    Feature: Estimated Fare
+    
+        The estimated payment details are shown to
+        rider once his ride has been accepted.
+        
+    Feature: Collect Feedback
+    
+        Driver rating are collected once the ride
+        ends.
+    
+    Feature: Ride Status and Fare
+    
+        Ride status is updated and final fare is 
+        shown once ride ends.
 ```
 ---
 
@@ -150,32 +237,33 @@ Feature: Live Car-Pooling
 ```gherkin=
 
 Function: index()
+
     Directs you to login page
 
-
 Function: drive_or_ride()
+
     Directs you to a html page where you can
     choose either to drive or ride
 
-
 Function: register()
+
     Directs you to a html page where you can fill
     the registration details
 
-
 Function: forget()
+
     Set a new password in case old one is lost
 
-
 Function: validateForm()
+
     Validates Form data
     
-
 Function: addUser()
+
     Adds user to database after validity check.
 
-
 Function: verifyUser()
+
     Checks for correct login credentials
 ```
 ---
@@ -183,21 +271,20 @@ Function: verifyUser()
 ```gherkin=
 
 Function: rideInfo()
+
     It collect pickup and destination from rider
     to be storedfor a later broadcast to 
     appropriate driver
     
-
 Function showDriverInfo()
+
     It communicates to the rider UI the driver
-    details who accept the ride request.
-    
+    details who accept the ride request.   
 
 Function rideSuccessful()
+
     It executes the necessary backend operations 
     after ride completion.
-
-
 ```
 ---
 
@@ -207,30 +294,23 @@ Function rideSuccessful()
 Function: index() 
     Directs you to home page of Driver
 
-
 Function: driverInfo()
     Directs you to the page where rider
     information is displayed.
-
 
 Function: searchRider()
     Hits the database for potential riders to be
     displayed after a specific interval.
 
-
 Function: acceptRide()
     Changes the ride status and updates the
     database once a ride is accepted.
-
 
 Function: endRide()
     Marks the ride as complete and updates the
     database once a ride is ended.
 
 ```
-
-
-
 
 ---
 ## Software Architecture
@@ -254,7 +334,29 @@ This is the overall data flow diagram of the Car-pool.
 * On the rider side, the user data is flown to book Ride followed by intervention of Map api usage (to get location/pickup details). 
 * The interaction between (Ride Accept/Reject) and (Ride Processing) decides the final Ride followed by payment.
 
+
+---
+
 ![DFD](https://i.imgur.com/VVbBDVu.jpg)
+
+
+
+---
+
+![Factoring-Input.jpg](https://i.imgur.com/iERts5Q.jpg)
+
+
+
+---
+
+
+![First-Level-Factoring.jpg](https://i.imgur.com/FJntwcp.jpg)
+
+
+
+---
+
+![Factoring_ride_processing(FACTORING-CENTRAL-TRANSFORM).jpg](https://i.imgur.com/gd1L3Kz.jpg)
 
 ---
 
